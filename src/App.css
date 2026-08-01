@@ -1,0 +1,12 @@
+.hero-glow {
+  box-shadow: 0 20px 60px rgba(16, 185, 129, 0.16);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
