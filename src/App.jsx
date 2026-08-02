@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import AuthPage from './pages/AuthPage'
 import DestinationsPage from './pages/DestinationsPage'
+import DestinationDetailsPage from './pages/DestinationDetailsPage'
 import TripsPage from './pages/TripsPage'
 import BookingsPage from './pages/BookingsPage'
 import ProfilePage from './pages/ProfilePage'
@@ -29,6 +30,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={user ? <Navigate to="/profile" replace /> : <AuthPage onLogin={handleLogin} />} />
         <Route path="/destinations" element={<DestinationsPage />} />
+        <Route path="/destinations/:id" element={<DestinationDetailsPage />} />
         <Route path="/trips" element={<TripsPage />} />
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />
