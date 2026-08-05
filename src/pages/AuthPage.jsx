@@ -3,10 +3,39 @@ import { useState } from 'react'
 function AuthPage({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true)
   const [form, setForm] = useState({ name: '', email: '', password: '' })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    onLogin({ name: form.name || 'Explorer', email: form.email, role: isLogin ? 'user' : 'admin' })
+    setLoading(true)
+    setError('')
+
+    const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register'
+    const body = {
+      email: form.email,
+      password: form.password,
+      ...(isLogin ? {} : { name: form.name }),
+    }
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || 'Unable to authenticate')
+      }
+
+      onLogin({ user: data.user, token: data.token })
+    } catch (fetchError) {
+      setError(fetchError.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -40,7 +69,16 @@ function AuthPage({ onLogin }) {
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
-        <button className="w-full rounded-full bg-emerald-700 px-4 py-3 font-semibold text-white">{isLogin ? 'Login' : 'Register'}</button>
+
+        {error && <p className="text-sm text-rose-600">{error}</p>}
+
+        <button
+          type="submit"
+          className="w-full rounded-full bg-emerald-700 px-4 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={loading}
+        >
+          {loading ? 'Working…' : isLogin ? 'Login' : 'Register'}
+        </button>
         <button type="button" onClick={() => setIsLogin((prev) => !prev)} className="w-full text-sm font-semibold text-emerald-700">
           {isLogin ? 'Need an account? Register' : 'Already have an account? Login'}
         </button>

@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import destinationsRouter from './routes/destinations.js'
+import authRouter from './routes/auth.js'
+import usersRouter from './routes/users.js'
 import seedData from './seedData.js'
 
 dotenv.config()
@@ -10,6 +12,8 @@ dotenv.config()
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use('/api/auth', authRouter)
+app.use('/api/users', usersRouter)
 app.use('/api/destinations', destinationsRouter)
 
 app.get('/api', (req, res) => {
