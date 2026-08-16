@@ -5,6 +5,7 @@ import cors from 'cors'
 import destinationsRouter from './routes/destinations.js'
 import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
+import tripsRouter from './routes/trips.js'
 import seedData from './seedData.js'
 
 dotenv.config()
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/destinations', destinationsRouter)
+app.use('/api/trips', tripsRouter)
 
 app.get('/api', (req, res) => {
   res.json({ message: 'Tourism API is running' })

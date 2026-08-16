@@ -35,7 +35,7 @@ function App() {
         <Route path="/destinations/:id" element={<DestinationDetailsPage />} />
         <Route path="/dashboard" element={user ? <DashboardPage user={user} token={token} /> : <Navigate to="/auth" replace />} />
         <Route path="/favorites" element={user ? <FavoritesPage token={token} /> : <Navigate to="/auth" replace />} />
-        <Route path="/trips" element={<TripsPage />} />
+        <Route path="/trips" element={user ? <TripsPage token={token} /> : <Navigate to="/auth" replace />} />
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/profile" element={user ? <ProfilePage user={user} /> : <Navigate to="/auth" replace />} />
         <Route path="/admin" element={<AdminPage />} />
